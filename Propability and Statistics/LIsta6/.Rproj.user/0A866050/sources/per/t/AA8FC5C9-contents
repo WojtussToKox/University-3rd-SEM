@@ -1,0 +1,92 @@
+#H0 sr = 2
+#H1 sr =/= 2
+
+
+dane <- read.csv2("waga1.csv") 
+
+print(names(dane)) 
+
+dane$roznica <- dane$Waga_po - dane$Waga_przed
+
+# mu = 2 oznacza wartość testowaną z hipotezy zerowej
+wynik_t <- t.test(dane$roznica, mu = 2)
+
+print(wynik_t)
+
+#Decyzja: Odrzucamy hipotezę zerową H_0 na poziomie istotności 5%.Mamy dowody przeciwko H_0. 
+
+
+
+
+#H0 prop mężczyzn = prop kobiet
+#H1 prop mężczyzn =/= prop kobiet
+
+# 1 = waży ponad 70kg, 0 = waży 70kg lub mniej
+dane$powyzej70 <- ifelse(dane$Waga_po > 70, 1, 0)
+
+# Wiersze: Płeć (0-mężczyzna, 1-kobieta), Kolumny: Czy >70kg (0-nie, 1-tak)
+tablica_waga <- table(dane$plec, dane$powyzej70)
+
+# Nadanie nazw dla czytelności (opcjonalne)
+rownames(tablica_waga) <- c("Mężczyzna", "Kobieta")
+colnames(tablica_waga) <- c("<=70kg", ">70kg")
+
+print("--- Tablica liczności ---")
+print(tablica_waga)
+
+#czy proporcje są równe
+wynik_chi <- chisq.test(tablica_waga)
+
+print("--- Wynik testu Chi-kwadrat ---")
+print(wynik_chi)
+
+#Decyzja: Odrzucamy hipotezę zerową H_0 na poziomie istotności 5%.Mamy dowody przeciwko H_0. 
+
+
+#H0 roznica srednich = 5
+#H1 roznica srednich =/= 5
+
+wzrost_mezczyzn <- dane$Wzrost[dane$plec == 0]
+wzrost_kobiet <- dane$Wzrost[dane$plec == 1]
+
+
+wynik_t_wzrost <- t.test(x = wzrost_mezczyzn, y = wzrost_kobiet, mu = 5)
+
+print("--- Wynik testu dla różnicy wzrostu 5cm ---")
+print(wynik_t_wzrost)
+
+
+#Decyzja: Odrzucamy hipotezę zerową H_0 na poziomie istotności 1%.Mamy mocne dowody przeciwko H_0. 
+
+
+
+
+#H0 przybralo = 80%
+#H1 przybralo =/= 80%
+
+liczba_sukcesow <- sum(dane$roznica > 0)
+liczebnosc_proby <- nrow(dane) # całkowita liczba studentów
+
+
+wynik_prop <- prop.test(x = liczba_sukcesow, n = liczebnosc_proby, p = 0.8, correct = FALSE)
+
+print("--- Wynik testu dla p = 0.8 ---")
+print(wynik_prop)
+
+#Decyzja: Odrzucamy hipotezę zerową H_0 na poziomie istotności 5%.Mamy dowody przeciwko H_0. 
+
+
+
+
+#H0 przybeanie mezczyzn = 4KG
+#H1 przybeanie mezczyzn =/= 4KG
+
+
+dane_mezczyzni <- subset(dane, plec == 0)
+
+wynik_t_mezczyzni <- t.test(dane_mezczyzni$roznica, mu = 4)
+
+print("--- Wynik testu dla mężczyzn (mu = 4kg) ---")
+print(wynik_t_mezczyzni)
+
+#Decyzja: Odrzucamy hipotezę zerową H_0 na poziomie istotności 1%.Mamy mocne dowody przeciwko H_0. 

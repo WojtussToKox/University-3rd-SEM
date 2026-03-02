@@ -1,0 +1,23 @@
+# Parametry
+mu <- 170
+sigma <- sqrt(144) # czyli 12
+
+# 1. P(X > 180) => 1 - P(X <= 180)
+prob_n1 <- 1 - pnorm(180, mean = mu, sd = sigma)
+prob_n1
+
+prob_n1b <- pnorm(180, mean = mu, sd = sigma, lower.tail = FALSE)
+prob_n1b
+
+# 2. P(X < 165)
+prob_n2 <- pnorm(165, mean = mu, sd = sigma)
+prob_n2
+
+# 3. P(155 < X < 190)
+prob_n3 <- pnorm(190, mean = mu, sd = sigma) - pnorm(155, mean = mu, sd = sigma)
+prob_n3
+
+# 4. Wzrost k, taki że 10% jest wyższych
+# P(X > k) = 0.10 => P(X <= k) = 0.90
+k_wzrost <- qnorm(0.90, mean = mu, sd = sigma)
+k_wzrost

@@ -1,0 +1,39 @@
+?data.frame
+
+oceny <- data.frame(
+  Imie = c("Krzysztof", "Maria", "Henryk", "Anna"),
+  Plec = c("m", "k", "m", "k"),
+  Analiza = c(3.5, 4.5, 5.0, 4.5),
+  Algebra = c(4.0, 5.0, 4.0, 3.5),
+  stringsAsFactors = FALSE # TRUE ZAMIENI NAM STRINGI NA ODPOWIEDNIE INTY INDEXOWANE 
+)
+"Rama danych 'oceny':"
+oceny
+
+"Pierwsze dwa wiersze:"
+head(oceny, 2)
+
+
+"Struktura ramy danych:"
+str(oceny) # wyswietla kolumne -> typ -> dane
+
+#funkcja(tabela $ nazwakolunmy)
+srednia_analiza <- mean(oceny$Analiza)
+srednia_analiza
+
+
+
+oceny$Srednia_Ocen <- (oceny$Analiza + oceny$Algebra) / 2
+oceny
+
+
+oceny_kobiety <- subset(oceny, Plec == "k")
+oceny_kobiety
+
+
+oceny_4_5_plus <- subset(oceny, Analiza >= 4.5 | Algebra >= 4.5)
+oceny_4_5_plus
+
+
+ile_4_5_analiza <- sum(oceny$Analiza >= 4.5)
+ile_4_5_analiza

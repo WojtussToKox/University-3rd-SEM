@@ -1,0 +1,37 @@
+set.seed(2137)
+
+# --- 1. Rozkład Bin(10, 0.3) ---
+# Suma sukcesów w 10 próbach
+liczba_realizacji_bin <- 100
+n_prob_bernoulliego <- 10
+prawdopodobienstwo_sukcesu <- 0.3
+wyniki_bin <- numeric(liczba_realizacji_bin)
+
+for (i in 1:liczba_realizacji_bin) {
+  liczba_sukcesow <- 0
+  for (j in 1:n_prob_bernoulliego) {
+    if (runif(1) < prawdopodobienstwo_sukcesu) {
+      liczba_sukcesow <- liczba_sukcesow + 1
+    }
+  }
+  wyniki_bin[i] <- liczba_sukcesow
+}
+
+# --- 2. Rozkład Geom(0.4) ---
+# Liczba prób do pierwszego sukcesu
+liczba_realizacji_geom <- 50
+p_geom <- 0.4
+wyniki_geom <- numeric(liczba_realizacji_geom)
+
+for (i in 1:liczba_realizacji_geom) {
+  licznik_prob <- 1 
+  # Dopóki wylosowana liczba > p (czyli porażka), rzucamy dalej
+  while (runif(1) >= p_geom) { 
+    licznik_prob <- licznik_prob + 1
+  }
+  wyniki_geom[i] <- licznik_prob
+}
+
+par(mfrow=c(1,2))
+hist(wyniki_bin, main="Symulacja Bin(10, 0.3)", col="orange", xlab="Liczba sukcesów")
+hist(wyniki_geom, main="Symulacja Geom(0.4)", col="yellow", xlab="Liczba prób")

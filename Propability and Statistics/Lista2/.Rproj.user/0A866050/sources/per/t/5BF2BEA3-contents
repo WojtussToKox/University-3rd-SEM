@@ -1,0 +1,58 @@
+
+mieszkania_dane <- read.csv("mieszkania.csv", header = TRUE, stringsAsFactors = FALSE, sep = ";")
+
+
+head(mieszkania_dane, 6)
+
+
+str(mieszkania_dane)
+
+
+
+sredni_metraz = mean(mieszkania_dane$Metraz, na.rm = TRUE)
+sredni_metraz
+
+srednia_cena = mean(mieszkania_dane$Cena, na.rm = TRUE)
+srednia_cena
+
+mieszkania_dane$cena_za_metr <- (mieszkania_dane$Cena / mieszkania_dane$Metraz)
+head(mieszkania_dane)
+
+
+kolumny <- c("Dzielnica", "Metraz", "Cena")
+oferty_Psie_Pole <- mieszkania_dane[mieszkania_dane$Dzielnica == "Psie Pole" & mieszkania_dane$Cena < 400000, kolumny]
+oferty_Psie_Pole
+
+srodmiesice_oferty <- subset(mieszkania_dane, Dzielnica == "Srodmiescie" & Metraz > 60)
+srodmiesice_oferty
+
+ile_specjalnych <- sum(mieszkania_dane$Cena <350000 & mieszkania_dane$Metraz > 60)
+ile_specjalnych
+
+
+
+mieszkania_dane$Wskaznik_Korzystnosci <- ((mieszkania_dane$Metraz / mieszkania_dane$Pokoje)/mieszkania_dane$Cena)
+najkorzystniejsze_mieszkanie <- mieszkania_dane[which.max(mieszkania_dane$Wskaznik_Korzystnosci), ]
+najkorzystniejsze_mieszkanie
+
+listy_dzielnic <- split(mieszkania_dane, mieszkania_dane$Dzielnica)
+listy_dzielnic
+
+
+
+odchylenia <- sapply(listy_dzielnic, function(x) sd(x$Cena, na.rm = TRUE))
+odchylenia
+
+wyniki_stabilnosci <- data.frame(
+  Dzielnica = names(odchylenia),
+  Odchylenie = odchylenia
+)
+wyniki_stabilnosci
+
+
+
+najbardziej_korzystna <- wyniki_stabilnosci[which.min(wyniki_stabilnosci$Odchylenie), ]
+najbardziej_korzystna
+
+najmniej_korzystna <- wyniki_stabilnosci[which.min(wyniki_stabilnosci$Odchylenie), ]
+najmniej_korzystna

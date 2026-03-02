@@ -1,0 +1,21 @@
+# Parametry
+lambda <- 3 * 2 # dla 2 tygodni
+
+# 1. P(X = 5)
+prob_p1 <- dpois(5, lambda = lambda)
+prob_p1
+
+# 2. P(X >= 4) => 1 - P(X <= 3)
+prob_p2 <- 1 - ppois(3, lambda = lambda)
+prob_p2
+
+# 3. P(3 <= X <= 5) => P(X <= 5) - P(X <= 2)
+prob_p3 <- ppois(5, lambda = lambda) - ppois(2, lambda = lambda)
+prob_p3
+
+# 4. Wykres dla 0 <= x <= 30
+x_pois <- 0:30
+y_pois <- dpois(x_pois, lambda = lambda)
+plot(x_pois, y_pois, type = "h", lwd = 2, col = "red",
+     main = "Sprzedaż samochodów (Poisson lambda=6)",
+     xlab = "Liczba samochodów", ylab = "Prawdopodobieństwo")
